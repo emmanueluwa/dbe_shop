@@ -15,5 +15,6 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, id, slug):
+    #product detail view expects id and slug params in order to retrieve Product instance
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
     return render(request, 'shop/product/detail.html', {'product': product})
