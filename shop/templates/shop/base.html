@@ -11,7 +11,14 @@
       <a href="/" class="logo">Shop</a>
     </div>
     <div id="subheader">
-      <div class="cart">Your cart is empty.</div>
+      <!--prettier-ignore-->
+      {% with total_items=cart|length %} {% if total_items > 0 %} Cart:<a
+        href='{% url "cart:cart_detail" %}'
+      >
+        {{ total_items }} item{{ total_items|pluralize }}, £{{
+        cart.get_total_price }}
+      </a>
+      {% else %} Cart is empty. {% endif %} {% endwith %}
     </div>
     <div id="content">{% block content %} {% endblock %}</div>
   </body>
