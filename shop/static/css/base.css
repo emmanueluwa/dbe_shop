@@ -18,17 +18,17 @@ h6 {
 
 a {
   text-decoration: none;
-  color: #5993bb;
+  color: #99bb59;
 }
 
 a:hover {
-  color: #77b6e2;
+  color: #91ad5d;
 }
 
 a.button,
 input[type="submit"] {
   color: #fff;
-  background: #5993bb;
+  background: #99bb59;
   border-radius: 4px;
   padding: 10px 20px;
   font-size: 14px;
@@ -72,7 +72,7 @@ tbody tr.subtotal {
 
 thead th,
 tbody tr.total {
-  background: #5993bb;
+  background: #99bb59;
   color: #fff;
   font-weight: bold;
 }
@@ -179,7 +179,7 @@ ul.errorlist {
 }
 
 #sidebar ul li.selected {
-  background: #5993bb;
+  background: #99bb59;
   border-radius: 4px;
 }
 
@@ -245,7 +245,7 @@ ul.errorlist {
 }
 
 .order-info h3 {
-  color: #5993bb;
+  color: #99bb59;
 }
 
 .order-info ul li {
