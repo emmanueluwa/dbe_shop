@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #external apps
     "shop",
     "cart",
+    "orders",
 ]
 
 MIDDLEWARE = [
