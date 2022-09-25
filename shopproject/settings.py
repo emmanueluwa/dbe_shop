@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    #external apps
+    #apps
     "shop",
     "cart",
     "orders",
+    "payment"
+    #3rd party apps
 ]
 
 MIDDLEWARE = [
@@ -148,3 +150,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('PETS_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('PETS_EMAIL_HOST_PASSWORD')
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+#stripe settings
+STRIPE_PUBLISHABLE_KEY = os.environ.get('DBESHOP_TEST_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.environ.get('DBESHOP_TEST_SECRET_KEY')
+STRIPE_API_VERSION = '2022-08-01'
