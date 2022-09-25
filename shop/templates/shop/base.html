@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Shop{% endblock %}</title>
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
   </head>
   <body>
     <div id="header">
@@ -18,7 +18,7 @@
         <!--prettier-ignore-->
         {{ total_items }} item{{ total_items|pluralize }}, £{{cart.get_total_price }}
       </a>
-      {% else %} Cart is empty. {% endif %} {% endwith %}
+      {% elif not order %} Cart is empty. {% endif %} {% endwith %}
     </div>
     <div id="content">{% block content %} {% endblock %}</div>
   </body>
