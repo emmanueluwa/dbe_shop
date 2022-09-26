@@ -1,6 +1,9 @@
 from django.contrib import admin
 from. models import Order, OrderItem
 from django.utils.safestring import mark_safe
+import csv
+import datetime
+from django.http import HttpResponse
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -14,6 +17,30 @@ def order_stripe_payment(obj):
         return mark_safe(html)
     return ''
 order_stripe_payment.short_description = 'Stripe payment'
+
+def export_to_csv(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    content_disposition = f'attachment; filename={opts.verbose_name}.csv'
+    #telling browser response is to be treated as csv file
+    response = HttpResponse(content_type='text/csv')
+    #indication response contains attached file
+    response['Content-Disposition'] = content_disposition
+    writer = csv.writer(response)
+    fields = [field for field in opts.get_fields() if not \
+              field.many_to_many and not field.one_to_many]
+    #header info, field names
+    writer.writerow([field.verbose_name for field in fields])
+    #data info
+    for obj in queryset:
+        data_row = []
+        for field in fields:
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime.datetime):
+                value = value.strftime('%d/%m/%Y')
+            data_row.append(value)
+        writer.writerow(data_row)
+    return response
+export_to_csv.short_description = 'Export to CSV'
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -33,3 +60,4 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['paid', 'created', 'updated']
     #expose related model on parent model page for foreign key relation
     inlines = [OrderItemInline]
+    actions = [export_to_csv]
