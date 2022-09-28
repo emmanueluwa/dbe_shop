@@ -5,7 +5,12 @@ from .models import OrderItem, Order
 from .forms import OrderCreateForm
 from cart.cart import Cart
 from .tasks import order_created
-
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import weasyprint
+import os
+os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\bin")
 
 def order_create(request):
     cart = Cart(request)
@@ -36,3 +41,19 @@ def order_create(request):
 def admin_order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'admin/orders/order/detail.html', {'order': order})
+
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    #saving rendered html
+    html = render_to_string('orders/order/pdf.html', {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    #response header, specifying file name
+    response['Content-Desposition'] = f'filename=order_{order.id}.pdf'
+
+    #write generated pdf to HttpResponse object
+    weasyprint.HTML(string=html).write_pdf(
+                                    response, 
+                                    stylesheets=[weasyprint.CSS(settings.STATIC_ROOT / 'css/pdf.css')]
+                                    )
+    return response
