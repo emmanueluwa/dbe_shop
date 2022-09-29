@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "shop",
     "cart",
     "orders",
-    "payment"
+    "payment",
+    "vouchers"
     #3rd party apps
 ]
 
