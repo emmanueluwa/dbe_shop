@@ -37,6 +37,17 @@ def payment_process(request):
                 },
                 'quantity': item.quantity,
             })
+        #stripe voucher
+        if order.voucher:
+            stripe_voucher = stripe.Coupon.create(
+                    name = order.voucher.code,
+                    percent_off = order.discount,
+                    duration = 'once'
+            )
+            #linking the voucher to the checkout session
+            session_data['discounts'] = [{
+                    'coupon': stripe_voucher.id
+            }]
 
         session = stripe.checkout.Session.create(**session_data)
         #status code 303 recommended to redirect apps to new uri after http POST
